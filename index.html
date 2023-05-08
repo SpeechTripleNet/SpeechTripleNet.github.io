@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Demo page for our paper SpeechTripleNet</title>
+</head>
+<body>
+	<h1 style="text-align: center;">Demo for "SpeechTripleNet: End-to-End Disentangled Speech Representation Learning for Content, Timbre and Prosody"</h1>
+	<p style="text-align: center;">Disentangled speech representation learning aims to separate different factors of variation from speech into disjoint representations. This paper focuses on disentangling speech into representations for three factors: spoken content, speaker timbre, and speech prosody. Many previous methods for speech disentanglement have focused on separating spoken content and speaker timbre. However, the lack of explicit modeling of prosodic information leads to degraded speech generation performance and uncontrollable prosody leakage into content and/or speaker representations. While some recent methods have utilized explicit speaker labels or pre-trained models to facilitate triple-factor disentanglement, there are no end-to-end methods to simultaneously disentangle three factors using only unsupervised or self-supervised learning objectives. This paper introduces SpeechTripleNet, an end-to-end method to disentangle speech into representations for content, timbre, and prosody. Based on VAE, SpeechTripleNet restricts the structures of the latent variables and the amount of information captured in them. It is a pure unsupervised/self-supervised learning method that only requires speech data and no additional labels. Our qualitative and quantitative results demonstrate that SpeechTripleNet is effective in achieving triple-factor speech disentanglement, as well as controllable speech editing concerning different factors.&nbsp;</p>
+	<ul>
+		<li><a href="#section1">Section 1: Speech editing: timbre & emphasis</a></li>
+		<li><a href="#section2">Section 2: Speech editing: statement to question</a></li>
+	</ul>
+	<h2 id="section1">Section 1</h2>
+	<p>This section presents edited speech samples using SpeechTripleNet in terms of timbre and emphasis. For each source speech, we list five possible modifications in five rows.
+	The first row shows the timbre reference speech and the ground-truth pitch and energy latent variables, which yield an edited voice-converted speech. The second row modifies the pitch latent variable for the bolded word in the text, which is also highlighted between two vertical red lines in the pitch latent image. The third row modifies the energy latent variable in a similar manner. The fourth row modifies both the pitch and energy latent variables. Finally, the fifth row modifies all three variables simultaneously: timbre, pitch, and energy. Please note that while the bold word is emphasized in some utterances, in others it is de-emphasized.</p>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Index</th>
+				<th>Text</th>
+				<th>Source speech</th>
+				<th>Timbre reference</th>
+				<th>Pitch latent</th>
+				<th>Energy latent</th>
+				<th>Edited speech</th>
+			</tr>
+		</thead>
+		<tbody>
+<tr>
+	<td rowspan="5">p245_185</td>
+	<td rowspan="5">He's not <b>perfect</b>.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-src-perfect.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-ref-perfect.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p245_185-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p245_185-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-spk-perfect.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p245_185-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p245_185-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-pit-perfect.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p245_185-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p245_185-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-ene-perfect.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p245_185-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p245_185-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-pit_ene-perfect.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-ref-perfect.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p245_185-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p245_185-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p245_185-to-p294_131.wav-pit_ene_spk-perfect.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p302_073</td>
+	<td rowspan="5">That alibi is <b>now</b> gone.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-src-now.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-ref-now.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p302_073-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p302_073-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-spk-now.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p302_073-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p302_073-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-pit-now.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p302_073-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p302_073-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-ene-now.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p302_073-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p302_073-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-pit_ene-now.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-ref-now.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p302_073-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p302_073-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_073-to-p234_095.wav-pit_ene_spk-now.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p234_309</td>
+	<td rowspan="5">That was a <b>bonus</b>, but it was not the main objective.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-src-bonous.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-ref-bonous.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p234_309-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p234_309-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-spk-bonous.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_309-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_309-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-pit-bonous.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_309-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p234_309-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-ene-bonous.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_309-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_309-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-pit_ene-bonous.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-ref-bonous.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p234_309-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_309-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_309-to-p347_420.wav-pit_ene_spk-bonous.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p335_064</td>
+	<td rowspan="5">This must be <b>wrong</b>.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-src-wrong.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-ref-wrong.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p335_064-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p335_064-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-spk-wrong.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p335_064-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p335_064-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-pit-wrong.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p335_064-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p335_064-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-ene-wrong.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p335_064-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p335_064-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-pit_ene-wrong.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-ref-wrong.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p335_064-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p335_064-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p335_064-to-p347_413.wav-pit_ene_spk-wrong.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p347_062</td>
+	<td rowspan="5">The message is just not getting <b>through</b>.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-src-through.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-ref-through.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p347_062-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p347_062-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-spk-through.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p347_062-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p347_062-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-pit-through.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p347_062-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p347_062-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-ene-through.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p347_062-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p347_062-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-pit_ene-through.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-ref-through.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p347_062-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p347_062-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p347_062-to-p294_086.wav-pit_ene_spk-through.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p238_193</td>
+	<td rowspan="5">The <b>squad</b> is too small.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-src-squad.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-ref-squad.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p238_193-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p238_193-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-spk-squad.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p238_193-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p238_193-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-pit-squad.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p238_193-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p238_193-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-ene-squad.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p238_193-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p238_193-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-pit_ene-squad.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-ref-squad.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p238_193-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p238_193-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p238_193-to-p245_103.wav-pit_ene_spk-squad.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p302_316</td>
+	<td rowspan="5">Is that <b>Titanic</b>?</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-src-Titanic.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-ref-Titanic.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p302_316-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p302_316-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-spk-Titanic.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p302_316-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p302_316-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-pit-Titanic.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p302_316-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p302_316-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-ene-Titanic.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p302_316-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p302_316-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-pit_ene-Titanic.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-ref-Titanic.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p302_316-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p302_316-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p302_316-to-p238_150.wav-pit_ene_spk-Titanic.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p234_222</td>
+	<td rowspan="5">We talk about Mr Michael Johnson, and he is <b>awesome</b>.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-src-awsome.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-ref-awsome.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p234_222-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p234_222-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-spk-awsome.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_222-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_222-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-pit-awsome.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_222-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p234_222-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-ene-awsome.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_222-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_222-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-pit_ene-awsome.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-ref-awsome.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p234_222-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_222-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_222-to-p302_244.wav-pit_ene_spk-awsome.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="5">p234_083</td>
+	<td rowspan="5"><b>They</b> were badly prepared for it.</td>
+	<td rowspan="5"><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-src-They.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-ref-They.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p234_083-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p234_083-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-spk-They.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_083-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_083-ene-gt.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-pit-They.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_083-pit-gt.png"></td>
+	<td><img width="300" height="80" src="data/p234_083-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-ene-They.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><img width="300" height="80" src="data/p234_083-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_083-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-pit_ene-They.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-ref-They.wav" controls></audio></td>
+	<td><img width="300" height="80" src="data/p234_083-pit-ed.png"></td>
+	<td><img width="300" height="80" src="data/p234_083-ene-ed.png"></td>
+	<td><audio style="width: 100px;" src="data/p234_083-to-p245_032.wav-pit_ene_spk-They.wav" controls></audio></td>
+</tr>
+
+		</tbody>
+</table>
+
+
+	<h2 id="section2">Section 2</h2>
+	<p>This section presents samples to demonstrate the capability of SpeechTripleNet to turn statements into questions. For each sample, we manipulate the latent space to increase the pitch and energy for some words, mostly the ending word. We also show that the speaker identity can be modified at the same time.</p>
+	<table border="1">
+	<thead>
+		<tr>
+			<th>Index</th>
+			<th>Text</th>
+			<th>Source speech</th>
+			<th>Timbre Reference</th>
+			<th>Edited speech</th>
+		</tr>
+	</thead>
+<tbody>
+<tr>
+	<td rowspan="3">p302_109</td>
+	<td rowspan="3">Or so it would appear.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p302_109-to-p225_236.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_109-to-p225_236.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_109-to-p225_236.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p302_109-to-p225_236.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p302_109-to-p225_236.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_109-to-p225_236.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p302_077</td>
+	<td rowspan="3">It is simple, really.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p302_077-to-p234_050.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_077-to-p234_050.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_077-to-p234_050.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p302_077-to-p234_050.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p302_077-to-p234_050.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_077-to-p234_050.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p294_385</td>
+	<td rowspan="3">However, many questions remained unanswered.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p294_385-to-p302_272.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_385-to-p302_272.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_385-to-p302_272.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p294_385-to-p302_272.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p294_385-to-p302_272.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_385-to-p302_272.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p238_370</td>
+	<td rowspan="3">Not that Barber has been unhappy.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p238_370-to-p294_087.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p238_370-to-p294_087.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p238_370-to-p294_087.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p238_370-to-p294_087.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p238_370-to-p294_087.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p238_370-to-p294_087.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p294_222</td>
+	<td rowspan="3">She has so much to offer.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p294_222-to-p302_302.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_222-to-p302_302.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_222-to-p302_302.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p294_222-to-p302_302.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p294_222-to-p302_302.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_222-to-p302_302.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p248_250</td>
+	<td rowspan="3">It was a hit.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p248_250-to-p302_094.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p248_250-to-p302_094.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p248_250-to-p302_094.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p248_250-to-p302_094.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p248_250-to-p302_094.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p248_250-to-p302_094.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p335_148</td>
+	<td rowspan="3">Drink and petrol prices remain untouched.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p335_148-to-p326_054.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p335_148-to-p326_054.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p335_148-to-p326_054.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p335_148-to-p326_054.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p335_148-to-p326_054.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p335_148-to-p326_054.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p245_063</td>
+	<td rowspan="3">He was popular.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p245_063-to-p294_142.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p245_063-to-p294_142.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p245_063-to-p294_142.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p245_063-to-p294_142.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p245_063-to-p294_142.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p245_063-to-p294_142.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p294_143</td>
+	<td rowspan="3">It's hard not to.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p294_143-to-p245_285.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_143-to-p245_285.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_143-to-p245_285.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p294_143-to-p245_285.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p294_143-to-p245_285.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p294_143-to-p245_285.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td rowspan="3">p302_267</td>
+	<td rowspan="3">It's a matter of huge concern.</td>
+	<td rowspan="3"><audio style="width: 100px;" src="data/p302_267-to-p248_279.wav-src-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_267-to-p248_279.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_267-to-p248_279.wav-spk-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td>same as source</td>
+	<td><audio style="width: 100px;" src="data/p302_267-to-p248_279.wav-pit_ene-to-question.wav" controls></audio></td>
+</tr>
+<tr>
+	<td><audio style="width: 100px;" src="data/p302_267-to-p248_279.wav-ref-to-question.wav" controls></audio></td>
+	<td><audio style="width: 100px;" src="data/p302_267-to-p248_279.wav-pit_ene_spk-to-question.wav" controls></audio></td>
+</tr>
+
+</tbody>
+	</table>
